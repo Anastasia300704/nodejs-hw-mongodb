@@ -1,24 +1,23 @@
-import express from "express";
-import cors from "cors";
-import pino from "pino-http";
-import { getContactsController, getContactByIdController } from "./controllers/contacts.js";
+const express = require('express');
+const cors = require('cors');
+const pino = require('pino')();
+const contactsRouter = require('./routes/contacts');
 
-export const setupServer = () => {
+const setupServer = () => {
   const app = express();
 
   app.use(cors());
-  app.use(pino());
-
-  app.get("/contacts", getContactsController);
-  app.get("/contacts/:contactId", getContactByIdController);
+  app.use(express.json()); 
+  app.use('/api', contactsRouter); 
 
   app.use((req, res) => {
-    res.status(404).json({ message: "Not found" });
+    res.status(404).json({ message: 'Not found' });
   });
 
-  const PORT = process.env.PORT || 3000;
-
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    pino.info(`Server is running on port ${port}`);
   });
 };
+
+module.exports = setupServer;

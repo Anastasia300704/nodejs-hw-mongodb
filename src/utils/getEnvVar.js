@@ -1,7 +1,9 @@
-export const getEnvVar = (key) => {
-  const value = process.env[key];
+const getEnvVar = (varName) => {
+  const value = process.env[varName];
   if (!value) {
-    throw new Error(`Environment variable ${key} is required`);
+    throw new Error(`Missing environment variable: ${varName}`);
   }
   return value;
 };
+
+module.exports = getEnvVar;
