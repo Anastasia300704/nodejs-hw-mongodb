@@ -1,7 +1,7 @@
-const { fetchAllContacts, fetchContactById } = require('../services/contacts');
+import { fetchAllContacts, fetchContactById } from '../services/contacts';
 
-const getContacts = async (req, res) => {
-  try {
+export const getContacts = async (req, res) => {
+    try {
     const contacts = await fetchAllContacts();
     res.status(200).json({
       status: 200,
@@ -11,10 +11,10 @@ const getContacts = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+ };
 
-const getContactById = async (req, res) => {
-  const { contactId } = req.params;
+export const getContactById = async (req, res) => {
+     const { contactId } = req.params;
   try {
     const contact = await fetchContactById(contactId);
     if (!contact) {
@@ -28,6 +28,4 @@ const getContactById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
-
-module.exports = { getContacts, getContactById };
+ };

@@ -6,4 +6,4 @@ const getEnvVar = (varName) => {
   return value;
 };
 
-module.exports = getEnvVar;
+export default getEnvVar;

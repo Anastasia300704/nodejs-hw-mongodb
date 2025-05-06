@@ -1,14 +1,13 @@
-const express = require('express');
-const cors = require('cors');
-const pino = require('pino')();
-const contactsRouter = require('./routes/contacts');
+import express from 'express';
+import cors from 'cors';
+import contactsRouter from './routes/contacts.js';
 
 const setupServer = () => {
   const app = express();
 
   app.use(cors());
   app.use(express.json()); 
-  app.use('/api', contactsRouter); 
+  app.use(contactsRouter); 
 
   app.use((req, res) => {
     res.status(404).json({ message: 'Not found' });
@@ -20,4 +19,4 @@ const setupServer = () => {
   });
 };
 
-module.exports = setupServer;
+export default setupServer;

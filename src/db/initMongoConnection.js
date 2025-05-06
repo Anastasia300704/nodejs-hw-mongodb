@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const getEnvVar = require('../utils/getEnvVar');
+import mongoose from 'mongoose';
+import getEnvVar from '../utils/getEnvVar.js';
 
 const initMongoConnection = async () => {
   const mongoUser = getEnvVar('MONGODB_USER');
@@ -15,5 +15,5 @@ const initMongoConnection = async () => {
   }
 };
 
-module.exports = initMongoConnection;
+export default initMongoConnection;
 
