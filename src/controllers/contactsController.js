@@ -73,12 +73,13 @@ export const updateContact = async (req, res, next) => {
   }
 };
 
-export const removeContact = async (req, res, next) => {
+
+export const deleteContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;
-    const deletedContact = await removeContactById(contactId);
+    const deleted = await deleteContactById(contactId);
 
-    if (!deletedContact) {
+    if (!deleted) {
       throw createError(404, 'Contact not found');
     }
 
