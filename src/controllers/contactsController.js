@@ -3,7 +3,7 @@ import {
   fetchContactById,
   createContact as createContactService,
   updateContactById,
-  removeContactById,
+  deleteContactById,
 } from '../services/contactsService.js';
 import createError from 'http-errors';
 
