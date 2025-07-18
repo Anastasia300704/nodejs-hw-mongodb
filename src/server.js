@@ -17,9 +17,6 @@ export const setupServer = () => {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
-  app.use((req, res) => {
-    res.status(404).json({ message: 'Not found' });
-  });
 
   const PORT = process.env.PORT || 3000;
 
