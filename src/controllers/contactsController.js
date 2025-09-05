@@ -8,7 +8,8 @@ import {
 import createError from 'http-errors';
 
 export const getAllContacts = async (req, res, next) => {
-  const contacts = await fetchAllContacts();
+    const { page, perPage, sortBy, sortOrder, type, isFavourite } = req.query;
+  const contacts = await fetchAllContacts({ page: Number(page), perPage: Number(perPage), sortBy, sortOrder, type, isFavourite });
 
   res.status(200).json({
     status: 200,
