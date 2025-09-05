@@ -23,3 +23,15 @@ export const fetchAllContacts = async ({ page = 1, perPage = 10, sortBy = 'name'
   };
 };
 
+export const createContact = async data => {
+  const newContact = await Contact.create(data);
+  return newContact;
+};
+export const fetchContactById = async (id) => Contact.findById(id);
+
+export const updateContactById = async (id, data) =>
+  Contact.findByIdAndUpdate(id, data, { new: true });
+
+export const deleteContactById = async (id) => Contact.findByIdAndDelete(id);
+
+
