@@ -1,4 +1,13 @@
-export const fetchAllContacts = async ({ page = 1, perPage = 10, sortBy = 'name', sortOrder = 'asc', type, isFavourite }) => {
+import { Contact } from '../models/contact.js';
+
+export const fetchAllContacts = async ({
+  page = 1,
+  perPage = 10,
+  sortBy = 'name',
+  sortOrder = 'asc',
+  type,
+  isFavourite,
+}) => {
   const skip = (page - 1) * perPage;
 
   const filter = {};
@@ -22,16 +31,3 @@ export const fetchAllContacts = async ({ page = 1, perPage = 10, sortBy = 'name'
     hasNextPage: page * perPage < totalItems,
   };
 };
-
-export const createContact = async data => {
-  const newContact = await Contact.create(data);
-  return newContact;
-};
-export const fetchContactById = async (id) => Contact.findById(id);
-
-export const updateContactById = async (id, data) =>
-  Contact.findByIdAndUpdate(id, data, { new: true });
-
-export const deleteContactById = async (id) => Contact.findByIdAndDelete(id);
-
-
