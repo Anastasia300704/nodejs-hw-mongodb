@@ -40,10 +40,10 @@ export const createContact = async (data) => {
   return await Contact.create(data);
 };
 
-export const updateContact = async (id, data) => {
+export const updateContactById = async (id, data) => {
   return await Contact.findByIdAndUpdate(id, data, { new: true });
 };
 
-export const deleteContact = async (id) => {
+export const deleteContactById = async (id) => {
   return await Contact.findByIdAndDelete(id);
 };
