@@ -31,3 +31,19 @@ export const fetchAllContacts = async ({
     hasNextPage: page * perPage < totalItems,
   };
 };
+
+export const fetchContactById = async (id) => {
+  return await Contact.findById(id);
+};
+
+export const createContact = async (data) => {
+  return await Contact.create(data);
+};
+
+export const updateContact = async (id, data) => {
+  return await Contact.findByIdAndUpdate(id, data, { new: true });
+};
+
+export const deleteContact = async (id) => {
+  return await Contact.findByIdAndDelete(id);
+};
