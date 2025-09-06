@@ -4,6 +4,7 @@ import pino from 'pino-http';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import contactsRouter from './routes/contactsRouter.js';
+import authRouter from "./routes/authRouter.js";
 
 export const setupServer = () => {
   const app = express();
@@ -16,6 +17,8 @@ export const setupServer = () => {
 
   app.use(notFoundHandler);
   app.use(errorHandler);
+
+  app.use("/auth", authRouter);
 
 
   const PORT = process.env.PORT || 3000;
