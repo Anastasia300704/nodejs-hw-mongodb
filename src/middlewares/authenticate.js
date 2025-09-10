@@ -14,13 +14,19 @@ export const authenticate = async (req, res, next) => {
     const { id } = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(id);
 
-    if (!user || !user.token || user.token !== token) {
+    if (!user) {
       return next(createError(401, 'Not authorized'));
     }
 
-    req.user = user;
+     req.user = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    };
+
     next();
-  } catch {
-    next(createError(401, 'Not authorized'));
+  } catch (err) {
+       console.error('Authenticate error:', err.message);
+    return next(createError(401, 'Not authorized'));
   }
 };
