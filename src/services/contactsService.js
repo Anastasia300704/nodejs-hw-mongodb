@@ -41,8 +41,8 @@ export const createContact = async (data, userId) => {
   return await Contact.create({ ...data, userId });
 };
 
-export const updateContactById = async (id, data, userId) => {
-  return await Contact.findOneAndUpdate({ _id: id, userId }, data, { new: true });
+export const updateContactById = async (contactId, data, userId) => {
+  return await Contact.findOneAndUpdate({ _id: contactId, userId }, data, { new: true });
 };
 
 export const deleteContactById = async (id, userId) => {
