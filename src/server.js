@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import contactsRouter from './routes/contactsRouter.js';
-import authRouter from "./routes/authRouter.js";
+import authRouter from "./routes/authRoutes.js";
 
 export const setupServer = () => {
   const app = express();
