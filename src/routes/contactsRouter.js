@@ -7,10 +7,10 @@ import {
   deleteContact,
 } from "../controllers/contactsController.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
-import { validateBody } from "../middlewares/validateBody.js";
-import { createContactSchema, updateContactSchema } from "../validation/contactSchemas.js";
-import { isValidId } from "../middlewares/isValidId.js";
-import { authenticate } from "../middlewares/authenticate.js";
+import { validateBody } from "../middleware/validateBody.js";
+import { createContactSchema, updateContactSchema } from "../validations/contactSchemas.js";
+import { isValidId } from "../middleware/isValidId.js";
+import { authenticate } from "../middleware/authenticate.js";
 
 const router = express.Router();
 

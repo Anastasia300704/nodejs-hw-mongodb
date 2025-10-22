@@ -1,7 +1,7 @@
 import express from "express";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
-import { validateBody } from "../middlewares/validateBody.js";
-import { registerSchema, loginSchema } from "../validation/authSchemas.js";
+import { validateBody } from "../middleware/validateBody.js";
+import { registerSchema, loginSchema } from "../validations/authValidation.js";
 import {
   register,
   login,
