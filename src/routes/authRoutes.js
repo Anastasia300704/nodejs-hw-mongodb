@@ -1,19 +1,24 @@
 import express from "express";
-import { ctrlWrapper } from "../utils/ctrlWrapper.js";
-import { validateBody } from "../middleware/validateBody.js";
-import { registerSchema, loginSchema } from "../validations/authValidation.js";
+import { celebrate, Joi, Segments } from "celebrate";
 import {
-  register,
-  login,
-  refresh,
-  logout,
+  registerUser,
+  loginUser,
+  refreshUserSession,
+  logoutUser,
 } from "../controllers/authController.js";
 
-const router = express.Router();
+export const authRouter = express.Router();
 
-router.post("/register", validateBody(registerSchema), ctrlWrapper(register));
-router.post("/login", validateBody(loginSchema), ctrlWrapper(login));
-router.post("/refresh", ctrlWrapper(refresh));
-router.post("/logout", ctrlWrapper(logout));
+const registerUserSchema = {
+  [Segments.BODY]: Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).required(),
+  }),
+};
 
-export default router;
+const loginUserSchema = { ...registerUserSchema };
+
+authRouter.post("/register", celebrate(registerUserSchema), registerUser);
+authRouter.post("/login", celebrate(loginUserSchema), loginUser);
+authRouter.post("/refresh", refreshUserSession);
+authRouter.post("/logout", logoutUser);
