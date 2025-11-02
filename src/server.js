@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { errors as celebrateErrors } from 'celebrate';
-import { connectMongoDB } from './db/initMongoConnection.js';
+import { initMongoConnection } from './db/initMongoConnection.js';
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
