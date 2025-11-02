@@ -34,19 +34,8 @@ app.use(celebrateErrors());
   app.use(notFoundHandler);
 app.use(errorHandler);
 
-
+export const setupServer = async () => {
+  await connectMongoDB();
   const PORT = process.env.PORT || 3000;
-
-  const start = async () => {
-  try {
-    await connectMongoDB();
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
- } catch (err) {
-    console.error('Failed to start server:', err.message);
-    process.exit(1);
-  }
+  app.listen(PORT, () => console.log(`Server running on ${PORT}`));
 };
-
-start();
