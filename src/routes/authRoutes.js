@@ -8,7 +8,7 @@ import {
   requestResetEmail,      
   resetPassword      
 } from '../controllers/authController.js';
-import { requestResetEmailSchema, resetPasswordSchema } from "../validations/authValidation.js";
+import { registerUserSchema, loginUserSchema, requestResetSchema, resetPasswordSchema } from "../validations/authValidation.js";
 
 const router = express.Router();
 
