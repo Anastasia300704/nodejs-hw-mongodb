@@ -6,7 +6,7 @@ import { Session } from "../models/session.js";
 import { createSession, setSessionCookies } from "../services/auth.js";
 import { sendEmail } from "../utils/sendMail.js";
 
-import { sendEmail } from "../utils/sendMail.js";
+const { JWT_SECRET, FRONTEND_DOMAIN } = process.env;
 
 export const registerUser = async (req, res) => {
   const { email, password } = req.body;
@@ -97,6 +97,7 @@ export const requestResetEmail = async (req, res) => {
 };
 
 export const resetPassword = async (req, res) => {
+  const { JWT_SECRET } = process.env;
   const { token, password } = req.body;
 
   let payload;
