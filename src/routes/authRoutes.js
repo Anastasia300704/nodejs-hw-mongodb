@@ -1,14 +1,7 @@
 import express from 'express';
 import { celebrate, Segments } from 'celebrate';
-import {
-  registerUser,
-  loginUser,
-  refreshUserSession,
-  logoutUser,
-  requestResetEmail,      
-  resetPassword      
-} from '../controllers/authController.js';
-import { registerUserSchema, loginUserSchema, requestResetSchema, resetPasswordSchema } from "../validations/authValidation.js";
+import { registerUser, loginUser, refreshUserSession, logoutUser, requestResetEmail, resetPassword } from '../controllers/authController.js';
+import { registerUserSchema, loginUserSchema, requestResetEmailSchema, resetPasswordSchema } from "../validations/authValidation.js";
 
 const router = express.Router();
 
