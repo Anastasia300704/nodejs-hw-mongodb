@@ -1,24 +1,18 @@
-import express from "express";
-import { celebrate, Joi, Segments } from "celebrate";
+import express from 'express';
+import { celebrate, Segments } from 'celebrate';
 import {
   registerUser,
   loginUser,
   refreshUserSession,
   logoutUser,
-} from "../controllers/authController.js";
+} from '../controllers/authController.js';
+import { registerUserSchema, loginUserSchema } from '../validations/authValidation.js';
 
-export const authRouter = express.Router();
+const router = express.Router();
 
-const registerUserSchema = {
-  [Segments.BODY]: Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().min(8).required(),
-  }),
-};
+router.post('/register', celebrate({ [Segments.BODY]: registerUserSchema }), registerUser);
+router.post('/login', celebrate({ [Segments.BODY]: loginUserSchema }), loginUser);
+router.post('/refresh', refreshUserSession);
+router.post('/logout', logoutUser);
 
-const loginUserSchema = { ...registerUserSchema };
-
-authRouter.post("/register", celebrate(registerUserSchema), registerUser);
-authRouter.post("/login", celebrate(loginUserSchema), loginUser);
-authRouter.post("/refresh", refreshUserSession);
-authRouter.post("/logout", logoutUser);
+export default router;
