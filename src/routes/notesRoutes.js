@@ -1,42 +1,83 @@
-import express from 'express';
-import { celebrate, Segments } from 'celebrate';
-import {
-  getAllNotes,
-  getNoteById,
-  createNote,
-  updateNote,
-  deleteNote,
-} from '../controllers/notesController.js';
-import { authenticate } from '../middleware/authenticate.js';
-import {
-  getAllNotesSchema,
-  noteIdSchema,
-  createNoteSchema,
-  updateNoteSchema,
-} from '../validations/notesValidation.js';
+import createError from 'http-errors';
+import { Note } from '../models/note.js';
 
-const router = express.Router();
+export const getAllNotes = async (req, res, next) => {
+  try {
+    const { page = 1, perPage = 10, tag, search } = req.query;
 
-// all routes protected
-router.use(authenticate);
+    const pageNum = Math.max(1, Number(page));
+    const perPageNum = Math.max(1, Number(perPage));
+    const skip = (pageNum - 1) * perPageNum;
 
-// GET /notes
-router.get('/', celebrate({ [Segments.QUERY]: getAllNotesSchema }), getAllNotes);
+    const baseFilter = { userId: req.user._id };
+    if (tag) baseFilter.tag = tag;
 
-// POST /notes
-router.post('/', celebrate({ [Segments.BODY]: createNoteSchema }), createNote);
+    const textFilter = search ? { $text: { $search: search } } : {};
 
-// GET /notes/:noteId
-router.get('/:noteId', celebrate({ [Segments.PARAMS]: noteIdSchema }), getNoteById);
+    const finalFilter = search ? { ...textFilter, ...baseFilter } : baseFilter;
 
-// PATCH /notes/:noteId
-router.patch(
-  '/:noteId',
-  celebrate({ [Segments.PARAMS]: noteIdSchema, [Segments.BODY]: updateNoteSchema }),
-  updateNote
-);
+    const [notes, totalNotes] = await Promise.all([
+      Note.find(finalFilter).sort({ createdAt: -1 }).skip(skip).limit(perPageNum).exec(),
+      Note.countDocuments(finalFilter),
+    ]);
 
-// DELETE /notes/:noteId
-router.delete('/:noteId', celebrate({ [Segments.PARAMS]: noteIdSchema }), deleteNote);
+    const totalPages = Math.ceil(totalNotes / perPageNum);
 
-export default router;
+    return res.status(200).json({
+      page: pageNum,
+      perPage: perPageNum,
+      totalNotes,
+      totalPages,
+      notes,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const createNote = async (req, res, next) => {
+  try {
+    const payload = { ...req.body, userId: req.user._id };
+    const note = await Note.create(payload);
+    return res.status(201).json(note); 
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getNoteById = async (req, res, next) => {
+  try {
+    const { noteId } = req.params;
+    const note = await Note.findOne({ _id: noteId, userId: req.user._id });
+    if (!note) throw createError(404, 'Note not found');
+    return res.status(200).json(note); 
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateNote = async (req, res, next) => {
+  try {
+    const { noteId } = req.params;
+    const updated = await Note.findOneAndUpdate(
+      { _id: noteId, userId: req.user._id },
+      req.body,
+      { new: true }
+    );
+    if (!updated) throw createError(404, 'Note not found');
+    return res.status(200).json(updated);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteNote = async (req, res, next) => {
+  try {
+    const { noteId } = req.params;
+    const deleted = await Note.findOneAndDelete({ _id: noteId, userId: req.user._id });
+    if (!deleted) throw createError(404, 'Note not found');
+    return res.status(200).json(deleted); 
+  } catch (err) {
+    next(err);
+  }
+};

@@ -3,15 +3,17 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { errors as celebrateErrors } from 'celebrate';
-import { connectMongoDB } from './db/initMongoConnection.js';
+
+import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
-import notesRouter from './routes/notesRoutes.js';
-import contactsRouter from './routes/contactsRouter.js';
-import authRouter from "./routes/authRoutes.js";
 
-  const app = express();
+import notesRouter from './routes/notesRouter.js';
+import authRouter from './routes/authRouter.js';
+import userRouter from './routes/userRouter.js';
+
+const app = express();
 
 app.use(
   cors({
@@ -20,29 +22,29 @@ app.use(
   })
 );
 
-  app.use(logger);
-  app.use(express.json());
-   app.use(cookieParser());
+app.use(logger);
+app.use(express.json());
+app.use(cookieParser());
 
-   app.use('/notes', notesRouter);
-  app.use('/contacts', contactsRouter);
-app.use("/auth", authRouter);
+app.use(notesRouter);
+app.use(authRouter);
+app.use(userRouter);
+
+app.use(notFoundHandler);
 
 app.use(celebrateErrors());
-  
-  app.use(notFoundHandler);
-  app.use(errorHandler);
 
+app.use(errorHandler);
 
-  const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-  const start = async () => {
+const start = async () => {
   try {
     await connectMongoDB();
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
- } catch (err) {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (err) {
     console.error('Failed to start server:', err.message);
     process.exit(1);
   }
