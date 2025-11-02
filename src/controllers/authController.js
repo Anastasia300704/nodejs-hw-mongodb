@@ -97,7 +97,6 @@ export const requestResetEmail = async (req, res) => {
 };
 
 export const resetPassword = async (req, res) => {
-  const { JWT_SECRET } = process.env;
   const { token, password } = req.body;
 
   let payload;
