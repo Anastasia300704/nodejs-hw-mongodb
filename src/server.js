@@ -10,6 +10,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import notesRouter from './routes/notesRoutes.js';
 import contactsRouter from './routes/contactsRouter.js';
 import authRouter from "./routes/authRoutes.js";
+import userRouter from './routes/userRoutes.js';
 
   const app = express();
 
@@ -27,11 +28,12 @@ app.use(
    app.use('/notes', notesRouter);
   app.use('/contacts', contactsRouter);
 app.use("/auth", authRouter);
+app.use('/users', userRouter);
 
 app.use(celebrateErrors());
   
   app.use(notFoundHandler);
-  app.use(errorHandler);
+app.use(errorHandler);
 
 
   const PORT = process.env.PORT || 3000;

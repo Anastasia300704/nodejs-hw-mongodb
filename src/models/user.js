@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+const DEFAULT_AVATAR = 'https://ac.goit.global/fullstack/react/default-avatar.jpg';
+
 const userSchema = new mongoose.Schema(
   {
     username: { type: String, trim: true },

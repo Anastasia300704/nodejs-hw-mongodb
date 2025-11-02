@@ -5,6 +5,8 @@ import {
   loginUser,
   refreshUserSession,
   logoutUser,
+  requestResetEmail,      
+  resetPassword      
 } from '../controllers/authController.js';
 import { registerUserSchema, loginUserSchema } from '../validations/authValidation.js';
 
@@ -14,5 +16,7 @@ router.post('/register', celebrate({ [Segments.BODY]: registerUserSchema }), reg
 router.post('/login', celebrate({ [Segments.BODY]: loginUserSchema }), loginUser);
 router.post('/refresh', refreshUserSession);
 router.post('/logout', logoutUser);
+router.post('/request-reset-email', celebrate({ [Segments.BODY]: requestResetEmailSchema }), requestResetEmail);
+router.post('/reset-password', celebrate({ [Segments.BODY]: resetPasswordSchema }), resetPassword);
 
 export default router;
