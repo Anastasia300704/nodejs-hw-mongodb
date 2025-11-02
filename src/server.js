@@ -10,6 +10,7 @@ import notesRouter from './routes/notesRoutes.js';
 import contactsRouter from './routes/contactsRouter.js';
 import authRouter from "./routes/authRoutes.js";
 import userRouter from './routes/userRoutes.js';
+import { connectMongoDB } from './db/initMongoConnection.js';
 
   const app = express();
 
