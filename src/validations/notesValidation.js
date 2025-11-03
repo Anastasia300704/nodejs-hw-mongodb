@@ -2,9 +2,9 @@ import Joi from 'joi';
 
 export const getAllNotesSchema = Joi.object({
   page: Joi.number().integer().min(1).optional(),
-  limit: Joi.number().integer().min(1).optional(),
+  perPage: Joi.number().integer().min(1).optional(),
   tag: Joi.string().optional(),
-  q: Joi.string().optional(), // text search
+  search: Joi.string().optional(), 
 });
 
 export const noteIdSchema = Joi.object({
