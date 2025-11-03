@@ -6,14 +6,14 @@ import {
   createNote,
   updateNote,
   deleteNote,
-} from '../controllers/notesController.js';
-import { authenticate } from '../middleware/authenticate.js';
+} from './controllers/notesController.js';
+import { authenticate } from './middleware/authenticate.js';
 import {
   getAllNotesSchema,
   noteIdSchema,
   createNoteSchema,
   updateNoteSchema,
-} from '../validations/notesValidation.js';
+} from './validations/notesValidation.js';
 
 const router = express.Router();
 
