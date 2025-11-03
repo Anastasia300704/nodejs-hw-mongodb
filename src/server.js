@@ -9,7 +9,7 @@ import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
-import notesRouter from './routes/notesRouter.js';
+import notesRoutes from './routes/notesRoutes.js';
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRouter.js';
 
