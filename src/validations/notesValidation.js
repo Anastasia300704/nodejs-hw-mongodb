@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import { Joi } from "celebrate";
 
 export const getAllNotesSchema = Joi.object({
   page: Joi.number().integer().min(1).optional(),
