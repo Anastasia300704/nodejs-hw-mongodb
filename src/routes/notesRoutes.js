@@ -8,12 +8,13 @@ import {
   deleteNote,
 } from '../controllers/notesController.js';
 import { authenticate } from '../middleware/authenticate.js';
+import { validateBody } from '../middleware/validateBody.js';
 import {
   getAllNotesSchema,
   noteIdSchema,
   createNoteSchema,
   updateNoteSchema,
-} from './validations/notesValidation.js';
+} from '../validations/notesValidation.js';
 
 const router = express.Router();
 

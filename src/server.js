@@ -11,7 +11,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 import notesRoutes from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import contactsRouter from './routes/contactsRouter.js';
+import userRouter from './routes/contactsRouter.js';
 
 const app = express();
 
