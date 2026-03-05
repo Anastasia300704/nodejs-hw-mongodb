@@ -48,7 +48,7 @@ export const refreshUserSession = async (req, res) => {
   const newSession = await createSession(session.userId);
   setSessionCookies(res, newSession);
 
-  res.json({ message: "Session refreshed" });
+  res.status(200).json({ message: "Session refreshed" });
 };
 
 export const logoutUser = async (req, res) => {
@@ -56,9 +56,15 @@ export const logoutUser = async (req, res) => {
 
   if (sessionId) await Session.deleteOne({ _id: sessionId });
 
-  res.clearCookie("sessionId");
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
+  const options = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+};
+
+res.clearCookie("sessionId", options);
+res.clearCookie("accessToken", options);
+res.clearCookie("refreshToken", options);
 
   res.status(204).end();
 };

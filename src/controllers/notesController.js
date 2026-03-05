@@ -69,7 +69,7 @@ export const deleteNote = async (req, res, next) => {
     const { noteId } = req.params;
     const deleted = await Note.findOneAndDelete({ _id: noteId, userId: req.user._id });
     if (!deleted) throw createError(404, 'Note not found');
-    res.status(200).json(deleted);
+    res.status(204).send();
   } catch (err) {
     next(err);
   }
