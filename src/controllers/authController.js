@@ -1,12 +1,10 @@
+import createHttpError from "http-errors";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import fs from "fs/promises";
 import path from "path";
 import handlebars from "handlebars";
-import { sendEmail } from "../utils/sendMail.js";
 
-import createHttpError from "http-errors";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { User } from "../models/user.js";
 import { Session } from "../models/session.js";
 import { createSession, setSessionCookies } from "../services/auth.js";
@@ -73,55 +71,6 @@ export const logoutUser = async (req, res) => {
   res.status(204).end();
 };
 
-export const requestResetEmail = async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(200).json({ message: "Password reset email sent successfully" });
-  }
-
-  const token = jwt.sign(
-    { sub: user._id.toString(), email: user.email },
-    JWT_SECRET,
-    { expiresIn: "15m" }
-  );
-
-  const resetLink = `${FRONTEND_DOMAIN.replace(/\/$/, "")}/reset-password?token=${token}`;
-
-  await sendEmail({
-    to: user.email,
-    subject: "Password reset",
-    templateName: "reset-password-email",
-    templateData: {
-      username: user.email,
-      resetLink
-    }
-  });
-
-  return res.status(200).json({ message: "Password reset email sent successfully" });
-};
-
-export const resetPassword = async (req, res) => {
-  const { token, password } = req.body;
-
-  let payload;
-  try {
-    payload = jwt.verify(token, JWT_SECRET);
-  } catch (err) {
-    throw createHttpError(401, "Invalid or expired token");
-  }
-
-  const { sub: userId, email } = payload;
-  const user = await User.findOne({ _id: userId, email });
-  if (!user) throw createHttpError(404, "User not found");
-
-  const hashed = await bcrypt.hash(password, 10);
-  user.password = hashed;
-  await user.save();
-
-  return res.status(200).json({ message: "Password reset successfully" });
-};
 
 export const requestResetEmail = async (req, res, next) => {
   try {
