@@ -23,14 +23,14 @@ router.get('/notes', celebrate({ [Segments.QUERY]: getAllNotesSchema }), getAllN
 
 router.post('/notes', celebrate({ [Segments.BODY]: createNoteSchema }), createNote);
 
-router.get('/:noteId', celebrate({ [Segments.PARAMS]: noteIdSchema }), getNoteById);
+router.get('/notes/:noteId', celebrate({ [Segments.PARAMS]: noteIdSchema }), getNoteById);
 
 router.patch(
-  '/:noteId',
+  '/notes/:noteId',
   celebrate({ [Segments.PARAMS]: noteIdSchema, [Segments.BODY]: updateNoteSchema }),
   updateNote
 );
 
-router.delete('/:noteId', celebrate({ [Segments.PARAMS]: noteIdSchema }), deleteNote);
+router.delete('/notes/:noteId', celebrate({ [Segments.PARAMS]: noteIdSchema }), deleteNote);
 
 export default router;
