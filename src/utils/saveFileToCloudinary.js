@@ -1,5 +1,5 @@
-import { v2 as cloudinary } from 'cloudinary';
-        import streamifier from 'streamifier';
+import { v2 as cloudinary } from "cloudinary";
+import streamifier from "streamifier";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -10,12 +10,13 @@ cloudinary.config({
 export const saveFileToCloudinary = (buffer) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: 'avatars', resource_type: 'image' },
+      { folder: "avatars" },
       (error, result) => {
-        if (error) return reject(error);
+        if (error) reject(error);
         resolve(result);
       }
     );
+
     streamifier.createReadStream(buffer).pipe(uploadStream);
   });
 };

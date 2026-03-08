@@ -3,6 +3,12 @@ import { celebrate, Segments } from 'celebrate';
 import { registerUser, loginUser, refreshUserSession, logoutUser, requestResetEmail, resetPassword } from '../controllers/authController.js';
 import { registerUserSchema, loginUserSchema, requestResetEmailSchema, resetPasswordSchema } from "../validations/authValidation.js";
 
+
+import { requestResetEmail } from "../controllers/authController.js";
+import { requestResetEmailSchema } from "../validations/authValidation.js";
+
+import { resetPassword } from "../controllers/authController.js";
+import { resetPasswordSchema } from "../validations/authValidation.js";
 const router = express.Router();
 
 router.post('/register', celebrate({ [Segments.BODY]: registerUserSchema }), registerUser);
@@ -12,4 +18,16 @@ router.post('/logout', logoutUser);
 router.post('/request-reset-email', celebrate({ [Segments.BODY]: requestResetEmailSchema }), requestResetEmail);
 router.post('/reset-password', celebrate({ [Segments.BODY]: resetPasswordSchema }), resetPassword);
 
+
+router.post(
+  "/auth/request-reset-email",
+  celebrate({ [Segments.BODY]: requestResetEmailSchema }),
+  requestResetEmail
+);
+
+router.post(
+  "/auth/reset-password",
+  celebrate({ [Segments.BODY]: resetPasswordSchema }),
+  resetPassword
+);
 export default router;
