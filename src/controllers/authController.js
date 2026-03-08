@@ -10,7 +10,12 @@ export const registerUser = async (req, res) => {
   const existing = await User.findOne({ email });
   if (existing) throw createHttpError(400, "Email in use");
 
-  const user = await User.create({ email, password });
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+const user = await User.create({
+  email,
+  password: hashedPassword,
+});
   const session = await createSession(user._id);
   setSessionCookies(res, session);
 

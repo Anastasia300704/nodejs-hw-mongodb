@@ -8,7 +8,6 @@ import {
   deleteNote,
 } from '../controllers/notesController.js';
 import { authenticate } from '../middleware/authenticate.js';
-import { validateBody } from '../middleware/validateBody.js';
 import {
   getAllNotesSchema,
   noteIdSchema,
@@ -20,9 +19,9 @@ const router = express.Router();
 
 router.use(authenticate);
 
-router.get('/', celebrate({ [Segments.QUERY]: getAllNotesSchema }), getAllNotes);
+router.get('/notes', celebrate({ [Segments.QUERY]: getAllNotesSchema }), getAllNotes);
 
-router.post('/', celebrate({ [Segments.BODY]: createNoteSchema }), createNote);
+router.post('/notes', celebrate({ [Segments.BODY]: createNoteSchema }), createNote);
 
 router.get('/:noteId', celebrate({ [Segments.PARAMS]: noteIdSchema }), getNoteById);
 

@@ -11,7 +11,6 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 import notesRoutes from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import contactsRouter from './routes/contactsRouter.js';
 
 const app = express();
 
@@ -28,7 +27,6 @@ app.use(cookieParser());
 
 app.use(notesRoutes);
 app.use(authRoutes);
-app.use(contactsRouter);
 
 app.use(notFoundHandler);
 
