@@ -18,7 +18,9 @@ export const registerUser = async (req, res) => {
   const existing = await User.findOne({ email });
   if (existing) throw createHttpError(400, "Email in use");
 
-  const user = await User.create({ email, password });
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+const user = await User.create({ email, password: hashedPassword });
   const session = await createSession(user._id);
   setSessionCookies(res, session);
 
@@ -105,6 +107,7 @@ export const requestResetEmail = async (req, res, next) => {
     });
 
     await sendEmail({
+        from: process.env.SMTP_FROM,
       to: email,
       subject: "Reset password",
       html,
@@ -114,8 +117,8 @@ export const requestResetEmail = async (req, res, next) => {
       message: "Password reset email sent successfully",
     });
   } catch (error) {
-    next(error);
-  }
+  next(createHttpError(500, "Failed to send the email, please try again later."));
+}
 };
 
 export const resetPassword = async (req, res, next) => {
